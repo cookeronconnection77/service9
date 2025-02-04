@@ -21,7 +21,7 @@ const fs = require("node:fs")
 app.use(multer({storage: storage, dest: path.join(__dirname, "./public/images")}).single("image"))
 app.use(express.json())
 app.options('*', (req, res) => {
-  const allowedOrigins = ['https://robin2715.github.io/admin', 'https://robin2715.github.io'];
+  const allowedOrigins = ['http://localhost:3000/admin', 'http://localhost:3000'];
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
     res.header("Access-Control-Allow-Origin", origin);
@@ -36,7 +36,7 @@ app.use((req, res, next) => {
   console.log('Solicitud recibida:', req.method, req.url);
   console.log('Cuerpo de la solicitud:', req.body);
 
-  const allowedOrigins = ['https://robin2715.github.io/admin', 'https://robin2715.github.io'];
+  const allowedOrigins = ['http://localhost:3000/admin', 'http://localhost:3000'];
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
     res.header("Access-Control-Allow-Origin", origin);
@@ -47,7 +47,7 @@ app.use((req, res, next) => {
 
 const corsOptions = {
   // origin: 'https://diningexperiencesource.shop', // Reemplaza con la URL de tu aplicación frontend
-  origin:  ['https://robin2715.github.io/admin', 'https://robin2715.github.io'],
+  origin:  ['http://localhost:3000/admin', 'http://localhost:3000'],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   optionsSuccessStatus: 204,
@@ -64,7 +64,7 @@ app.use(cors(corsOptions))
 const io = socketIO(server, {
   path: '/socket',
   cors: {
-    origin: ['https://robin2715.github.io', 'https://robin2715.github.io/admin'],
+    origin: ['http://localhost:3000/admin', 'http://localhost:3000'],
     methods: ['GET', 'POST'],
     credentials: true,  // Permitir cookies y credenciales si es necesario
   },
@@ -223,10 +223,10 @@ console.log("SE HA ENVIADO UN MESERO A LA MESA " + tableNumber + " EL BOTON EN E
 // });
 
 const connection = mysql.createPool({
-  host: "bcxurofl7mlbgmuudmrg-mysql.services.clever-cloud.com",
-  user: "uzq5bc0q4mklwyo9",
-  password: "6OOChzlLqKUH5pSTKQco",
-  database: "bcxurofl7mlbgmuudmrg",
+  host: "bng4gtwx9qbq9czwpeyh-mysql.services.clever-cloud.com",
+  user: "u7fiiampb4lw0j1h",
+  password: "kiygSMPmr2TuxFKcayCM",
+  database: "bng4gtwx9qbq9czwpeyh",
   port: 3306,
   waitForConnections: true,
   connectionLimit: 10, // Número de conexiones en el pool
