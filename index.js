@@ -90,24 +90,24 @@ io.on("connection", (socket) => {
     // Aquí puedes procesar el pedido y enviarlo a la cocina, guardar en una base de datos, etc.
     // Por ejemplo, puedes emitir un evento para notificar a la cocina sobre el nuevo pedido.
     io.emit("pedidoALaCocina", data);
-    const {products, table, totalPayOrder} = data;
+    // const {products, table, totalPayOrder} = data;
 
     // Convertir el objeto products a una cadena JSON
-    const productsJSON = JSON.stringify(products);
+    // const productsJSON = JSON.stringify(products);
    
     // Insertar datos en la tabla Pedidos
-    const sql = 'INSERT INTO pedidos (table_number, products, totalPayOrder) VALUES (?, ?, ?)';
-    connection.query(sql, [table, productsJSON,  totalPayOrder], (err, result) => {
-      if (err) {
-        console.error('Error al insertar datos en la tabla Pedidos:', err);
+    // const sql = 'INSERT INTO pedidos (table_number, products, totalPayOrder) VALUES (?, ?, ?)';
+    // connection.query(sql, [table, productsJSON,  totalPayOrder], (err, result) => {
+      // if (err) {
+        // console.error('Error al insertar datos en la tabla Pedidos:', err);
         // Enviar mensaje de error al cliente a través del socket
-        socket.emit('error', 'Error al insertar datos en la tabla Pedidos');
-        return;
-      }
-      console.log('Datos insertados en la tabla Pedidos');
+        // socket.emit('error', 'Error al insertar datos en la tabla Pedidos');
+        // return;
+      // }
+      // console.log('Datos insertados en la tabla Pedidos');
       // Enviar mensaje de éxito al cliente a través del socket
-      socket.emit('success', 'Datos insertados correctamente en la tabla Pedidos');
-    });
+      // socket.emit('success', 'Datos insertados correctamente en la tabla Pedidos');
+    // });
   });
 
   socket.on('mensajeChat', (mensaje) => {
