@@ -21,7 +21,7 @@ const fs = require("node:fs")
 app.use(multer({storage: storage, dest: path.join(__dirname, "./public/images")}).single("image"))
 app.use(express.json())
 app.options('*', (req, res) => {
-  const allowedOrigins = ['http://localhost:3000/admin', 'http://localhost:3000'];
+  const allowedOrigins = ['http://localhost:3000/service1/admin', 'http://localhost:3000/service1'];
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
     res.header("Access-Control-Allow-Origin", origin);
@@ -36,7 +36,7 @@ app.use((req, res, next) => {
   console.log('Solicitud recibida:', req.method, req.url);
   console.log('Cuerpo de la solicitud:', req.body);
 
-  const allowedOrigins = ['http://localhost:3000/admin', 'http://localhost:3000'];
+  const allowedOrigins = ['http://localhost:3000/service1/admin', 'http://localhost:3000/service1'];
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
     res.header("Access-Control-Allow-Origin", origin);
@@ -47,7 +47,7 @@ app.use((req, res, next) => {
 
 const corsOptions = {
   // origin: 'https://diningexperiencesource.shop', // Reemplaza con la URL de tu aplicación frontend
-  origin:  ['http://localhost:3000/admin', 'http://localhost:3000'],
+  origin:  ['http://localhost:3000/service1/admin', 'http://localhost:3000/service1'],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   optionsSuccessStatus: 204,
@@ -64,7 +64,7 @@ app.use(cors(corsOptions))
 const io = socketIO(server, {
   path: '/socket',
   cors: {
-    origin: ['http://localhost:3000/admin', 'http://localhost:3000'],
+    origin: ['http://localhost:3000/service1/admin', 'http://localhost:3000/service1'],
     methods: ['GET', 'POST'],
     credentials: true,  // Permitir cookies y credenciales si es necesario
   },
