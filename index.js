@@ -222,16 +222,16 @@ console.log("SE HA ENVIADO UN MESERO A LA MESA " + tableNumber + " EL BOTON EN E
 //   port: 3306
 // });
 
-const connection = mysql.createPool({
-  host: "bng4gtwx9qbq9czwpeyh-mysql.services.clever-cloud.com",
-  user: "u7fiiampb4lw0j1h",
-  password: "kiygSMPmr2TuxFKcayCM",
-  database: "bng4gtwx9qbq9czwpeyh",
-  port: 3306,
-  waitForConnections: true,
-  connectionLimit: 5, // Número de conexiones en el pool
-  queueLimit: 0
-});
+// const connection = mysql.createPool({
+//   host: "bng4gtwx9qbq9czwpeyh-mysql.services.clever-cloud.com",
+//   user: "u7fiiampb4lw0j1h",
+//   password: "kiygSMPmr2TuxFKcayCM",
+//   database: "bng4gtwx9qbq9czwpeyh",
+//   port: 3306,
+//   waitForConnections: true,
+//   connectionLimit: 5, // Número de conexiones en el pool
+//   queueLimit: 0
+// });
 
 // connection.connect((err) => {
 //   if (err) {
@@ -244,132 +244,132 @@ const connection = mysql.createPool({
 // enviar pedidos al admin
 
 
-app.get('/dataBaseGet', (req, res) => {
+// app.get('/dataBaseGet', (req, res) => {
  
-  // Enviador datos al frontend
-  const sql = 'SELECT id, table_number, products, totalPayOrder FROM pedidos';
-  connection.query(sql, (err, result) => {
-    if (err) {
-      console.error('Error al enviar datos al administrador', err);
-      res.status(500).json({ error: 'Error interno del servidor' });
-      return;
-    }
-    console.log('Datos enviados al administrador');
-    res.status(200).json(result);
-  });
-});
+//   // Enviador datos al frontend
+//   const sql = 'SELECT id, table_number, products, totalPayOrder FROM pedidos';
+//   connection.query(sql, (err, result) => {
+//     if (err) {
+//       console.error('Error al enviar datos al administrador', err);
+//       res.status(500).json({ error: 'Error interno del servidor' });
+//       return;
+//     }
+//     console.log('Datos enviados al administrador');
+//     res.status(200).json(result);
+//   });
+// });
 
 // Configurar el servidor para escuchar en el puerto 4000
 
-app.put('/cleanDataBase', (req, res) => {
-  const sql = "DELETE FROM pedidos;";
-  connection.query(sql, (err, result) => {
-    if (err) {
-      console.error("Error al borrar los pedidos de la tabla:", err);
-      res.status(500).json({ error: "Error interno del servidor" });
-      return;
-    }
-    console.log("Se han eliminado todos los pedidos de la tabla correctamente");
-    res.status(200).json({ message: "Pedidos eliminados correctamente" });
-  });
-});
+// app.put('/cleanDataBase', (req, res) => {
+//   const sql = "DELETE FROM pedidos;";
+//   connection.query(sql, (err, result) => {
+//     if (err) {
+//       console.error("Error al borrar los pedidos de la tabla:", err);
+//       res.status(500).json({ error: "Error interno del servidor" });
+//       return;
+//     }
+//     console.log("Se han eliminado todos los pedidos de la tabla correctamente");
+//     res.status(200).json({ message: "Pedidos eliminados correctamente" });
+//   });
+// });
 
 
 // ELIMINAR UN PEDIDO DE LA BASE DE DATOS DEL DIA
 
-app.delete("/deleteOneDate", (req, res) => {
-  // Asegurarse de que el id esté en el cuerpo de la solicitud
-  const dateId = req.body.id; 
+// app.delete("/deleteOneDate", (req, res) => {
+//   // Asegurarse de que el id esté en el cuerpo de la solicitud
+//   const dateId = req.body.id; 
   
-  if (!dateId) {
-    return res.status(400).json({ error: "ID no proporcionado" });
-  }
+//   if (!dateId) {
+//     return res.status(400).json({ error: "ID no proporcionado" });
+//   }
 
-  // Consulta SQL para eliminar el registro con el id proporcionado en la tabla 'pedidos'
-  const sql = 'DELETE FROM pedidos WHERE id = ?';
+//   // Consulta SQL para eliminar el registro con el id proporcionado en la tabla 'pedidos'
+//   const sql = 'DELETE FROM pedidos WHERE id = ?';
 
-  connection.query(sql, [dateId], (err, result) => {
-    if (err) {
-      console.error('Error al eliminar el registro', err);
-      return res.status(500).json({ error: 'Error interno del servidor' });
-    }
+//   connection.query(sql, [dateId], (err, result) => {
+//     if (err) {
+//       console.error('Error al eliminar el registro', err);
+//       return res.status(500).json({ error: 'Error interno del servidor' });
+//     }
     
-    // Si no se encontró ningún registro con ese ID, devolver un mensaje
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ error: 'No se encontró el registro con ese ID' });
-    }
+//     // Si no se encontró ningún registro con ese ID, devolver un mensaje
+//     if (result.affectedRows === 0) {
+//       return res.status(404).json({ error: 'No se encontró el registro con ese ID' });
+//     }
 
-    console.log('Registro eliminado');
-    res.status(200).json({ message: 'Registro eliminado correctamente', result });
-  });
-});
+//     console.log('Registro eliminado');
+//     res.status(200).json({ message: 'Registro eliminado correctamente', result });
+//   });
+// });
 
 
-app.delete("/deleteOneRegister", (req, res) => {
-  // Asegurarse de que el id esté en el cuerpo de la solicitud
-  const dateId = req.body.id; 
+// app.delete("/deleteOneRegister", (req, res) => {
+//   // Asegurarse de que el id esté en el cuerpo de la solicitud
+//   const dateId = req.body.id; 
   
-  if (!dateId) {
-    return res.status(400).json({ error: "ID no proporcionado" });
-  }
+//   if (!dateId) {
+//     return res.status(400).json({ error: "ID no proporcionado" });
+//   }
 
-  // Consulta SQL para eliminar el registro con el id proporcionado en la tabla 'pedidos'
-  const sql = 'DELETE FROM registro WHERE id = ?';
+//   // Consulta SQL para eliminar el registro con el id proporcionado en la tabla 'pedidos'
+//   const sql = 'DELETE FROM registro WHERE id = ?';
 
-  connection.query(sql, [dateId], (err, result) => {
-    if (err) {
-      console.error('Error al eliminar el registro', err);
-      return res.status(500).json({ error: 'Error interno del servidor' });
-    }
+//   connection.query(sql, [dateId], (err, result) => {
+//     if (err) {
+//       console.error('Error al eliminar el registro', err);
+//       return res.status(500).json({ error: 'Error interno del servidor' });
+//     }
     
-    // Si no se encontró ningún registro con ese ID, devolver un mensaje
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ error: 'No se encontró el registro con ese ID' });
-    }
+//     // Si no se encontró ningún registro con ese ID, devolver un mensaje
+//     if (result.affectedRows === 0) {
+//       return res.status(404).json({ error: 'No se encontró el registro con ese ID' });
+//     }
 
-    console.log('Registro eliminado');
-    res.status(200).json({ message: 'Registro eliminado correctamente', result });
-  });
-});
-
-
+//     console.log('Registro eliminado');
+//     res.status(200).json({ message: 'Registro eliminado correctamente', result });
+//   });
+// });
 
 
-// METODO POST GUARDAR BASE DE DATOS
-
-app.post("/savePayOfDay", (req, res) => {
-  const { date, data, totalPay } = req.body;
-
-  // Asegúrate de que 'data' sea una cadena JSON válida.
-  const sql = 'INSERT INTO registro (date, data, totalPay) VALUES (?, ?, ?)';
-  connection.query(sql, [date, JSON.stringify(data), totalPay], (err, result) => {
-    if (err) {
-      console.error('Error al insertar datos en la tabla Pedidos:', err);
-      res.status(500).send('Error al insertar datos en la tabla Pedidos');
-      return;
-    }
-
-    res.status(201).send('Datos insertados correctamente');
-  });
-});
-
-// envio registro al frontend
 
 
-app.get('/registroGet', (req, res) => {
+// // METODO POST GUARDAR BASE DE DATOS
+
+// app.post("/savePayOfDay", (req, res) => {
+//   const { date, data, totalPay } = req.body;
+
+//   // Asegúrate de que 'data' sea una cadena JSON válida.
+//   const sql = 'INSERT INTO registro (date, data, totalPay) VALUES (?, ?, ?)';
+//   connection.query(sql, [date, JSON.stringify(data), totalPay], (err, result) => {
+//     if (err) {
+//       console.error('Error al insertar datos en la tabla Pedidos:', err);
+//       res.status(500).send('Error al insertar datos en la tabla Pedidos');
+//       return;
+//     }
+
+//     res.status(201).send('Datos insertados correctamente');
+//   });
+// });
+
+// // envio registro al frontend
+
+
+// app.get('/registroGet', (req, res) => {
  
-  // Enviador datos al frontend
-  const sql = 'SELECT id, date, data, totalPay FROM registro';
-  connection.query(sql, (err, result) => {
-    if (err) {
-      console.error('Error al enviar datos al administrador', err);
-      res.status(500).json({ error: 'Error interno del servidor' });
-      return;
-    }
-    console.log('Datos enviados al administrador');
-    res.status(200).json(result);
-  });
-});
+//   // Enviador datos al frontend
+//   const sql = 'SELECT id, date, data, totalPay FROM registro';
+//   connection.query(sql, (err, result) => {
+//     if (err) {
+//       console.error('Error al enviar datos al administrador', err);
+//       res.status(500).json({ error: 'Error interno del servidor' });
+//       return;
+//     }
+//     console.log('Datos enviados al administrador');
+//     res.status(200).json(result);
+//   });
+// });
 
 
 // ACTUALIZACIONES VERSION 2.0
