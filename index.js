@@ -66,7 +66,8 @@ const io = socketIO(server, {
   cors: {
     origin: ['*'],
     methods: ['GET', 'POST'],
-    // credentials: true,  // Permitir cookies y credenciales si es necesario
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,  // Permitir cookies y credenciales si es necesario
   },
 });
 
