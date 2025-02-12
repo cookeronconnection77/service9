@@ -65,33 +65,15 @@ app.use(cors(corsOptions))
 //   cors: corsOptions,
 // });
 
-// const io = socketIO(server, {
-//   path: '/socket',
-//   cors: {
-//     origin: [frontendUrl],
-//     methods: ['GET', 'POST'],
-//     allowedHeaders: ['Content-Type', 'Authorization'],
-//     credentials: true,  // Permitir cookies y credenciales si es necesario
-//   },
-// });
-
-
 const io = socketIO(server, {
   path: '/socket',
   cors: {
-    origin: (origin, callback) => {
-      if ([frontendUrl, adminUrl].includes(origin)) {
-        callback(null, true);  // Aceptar la solicitud
-      } else {
-        callback(new Error("Origen no permitido"));  // Rechazar la solicitud
-      }
-    },
+    origin: [frontendUrl],
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,
+    credentials: true,  // Permitir cookies y credenciales si es necesario
   },
 });
-
 
 server.listen(port, () => {
   console.log("servidor  conectado");
