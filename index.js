@@ -51,7 +51,7 @@ app.use((req, res, next) => {
 
 const corsOptions = {
   // origin: 'https://diningexperiencesource.shop', // Reemplaza con la URL de tu aplicación frontend
-  origin:  [frontendUrl, adminUrl],
+  origin:  [frontendUrl],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   optionsSuccessStatus: 204,
@@ -65,15 +65,33 @@ app.use(cors(corsOptions))
 //   cors: corsOptions,
 // });
 
+// const io = socketIO(server, {
+//   path: '/socket',
+//   cors: {
+//     origin: [frontendUrl],
+//     methods: ['GET', 'POST'],
+//     allowedHeaders: ['Content-Type', 'Authorization'],
+//     credentials: true,  // Permitir cookies y credenciales si es necesario
+//   },
+// });
+
+
 const io = socketIO(server, {
   path: '/socket',
   cors: {
-    origin: [frontendUrl],
+    origin: (origin, callback) => {
+      if ([frontendUrl, adminUrl].includes(origin)) {
+        callback(null, true);  // Aceptar la solicitud
+      } else {
+        callback(new Error("Origen no permitido"));  // Rechazar la solicitud
+      }
+    },
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,  // Permitir cookies y credenciales si es necesario
+    credentials: true,
   },
 });
+
 
 server.listen(port, () => {
   console.log("servidor  conectado");
