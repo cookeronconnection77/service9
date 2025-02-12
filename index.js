@@ -18,8 +18,7 @@ const storage = multer.diskStorage({
 let mesas = {};  
 const fs = require("node:fs")
 
-const frontendUrl = "http://localhost:3000/";
-const adminUrl = "http://localhost:3000/service1/admin"
+const frontendUrl = "http://localhost:3000";
 
 
 // app.use(multer({storage: storage, dest: path.join(__dirname, "./public/images")}).single("image"))
@@ -176,10 +175,6 @@ io.to(socket.tableNumber).emit("cliente_desconectado", socket.tableNumber)
 
     }) 
 
-    socket.on("pedidoEnviado", (table) => {
-      socket.emit("pedidoRecibido", table)
-      console.log("pedido enviado desde el backend")
-    })
 
 
     socket.on('ping', (data) => {
