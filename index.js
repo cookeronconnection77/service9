@@ -175,6 +175,9 @@ io.to(socket.tableNumber).emit("cliente_desconectado", socket.tableNumber)
 
     }) 
 
+    socket.on("pedidoEnviado", () => {
+      socket.emit("pedidoRecibido")
+    })
 
 
     socket.on('ping', (data) => {
