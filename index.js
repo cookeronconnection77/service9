@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
 let mesas = {};  
 const fs = require("node:fs")
 
-const frontendUrl = "http://localhost:3000/service1/";
+const frontendUrl = "http://localhost:3000/";
 const adminUrl = "http://localhost:3000/service1/admin"
 
 
