@@ -191,7 +191,9 @@ io.to(socket.tableNumber).emit("cliente_desconectado", socket.tableNumber)
       }
     });
 
-
+socket.on("pedidoEnviado", (table) => {
+  socket.emit("pedidoRecibido", table)
+})
 
     socket.on('enviar_mesero', (tableNumber) => {
 
