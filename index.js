@@ -18,7 +18,8 @@ const storage = multer.diskStorage({
 let mesas = {};  
 const fs = require("node:fs")
 
-const frontendUrl = ["http://localhost:3000/service1/", "http://localhost:3000/service1/admin"];
+const frontendUrl = "http://localhost:3000/service1/";
+const adminUrl = "http://localhost:3000/service1/admin"
 
 
 // app.use(multer({storage: storage, dest: path.join(__dirname, "./public/images")}).single("image"))
@@ -50,7 +51,7 @@ app.use((req, res, next) => {
 
 const corsOptions = {
   // origin: 'https://diningexperiencesource.shop', // Reemplaza con la URL de tu aplicación frontend
-  origin:  [frontendUrl],
+  origin:  [frontendUrl, adminUrl],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   optionsSuccessStatus: 204,
