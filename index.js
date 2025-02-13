@@ -15,7 +15,6 @@ const storage = multer.diskStorage({
     cb(null, file.originalname)
   }
 })
-const memwatch = require('memwatch-next');
 let mesas = {};  
 const fs = require("node:fs")
 
@@ -67,9 +66,7 @@ app.use(cors(corsOptions))
 //   cors: corsOptions,
 // });
 
-memwatch.on('leak', (info) => {
-  console.log('Fuga de memoria detectada:', info);
-});
+
 
 const io = socketIO(server, {
   path: '/socket',
