@@ -15,6 +15,7 @@ const storage = multer.diskStorage({
     cb(null, file.originalname)
   }
 })
+const memwatch = require('memwatch-next');
 let mesas = {};  
 const fs = require("node:fs")
 
@@ -33,6 +34,8 @@ app.use(express.json())
 //   res.header("Access-Control-Allow-Headers", "Content-Type");
 //   res.send();
 // });
+
+
 
 // Middleware de registro de solicitudes
 app.use((req, res, next) => {
@@ -64,6 +67,10 @@ app.use(cors(corsOptions))
 //   cors: corsOptions,
 // });
 
+memwatch.on('leak', (info) => {
+  console.log('Fuga de memoria detectada:', info);
+});
+
 const io = socketIO(server, {
   path: '/socket',
   cors: {
@@ -90,6 +97,31 @@ let clientTimeouts = new Map();
 io.on("connection", (socket) => {
   console.log("Cliente conectado:", socket.id);
 
+  const sendMemoryInfo =() => {
+    const hd = new memwatch.HeapDiff();
+    
+    setInterval(() => {
+      const diff = hd.end();
+      const memoryUsage = {
+        mallocedBytes: diff.change.malloced_bytes,
+        usedHeapSize: diff.change.used_heap_size,
+        totalHeapSize: diff.change.total_heap_size,
+        peakMallocedBytes: diff.change.peak_malloced_bytes,
+      };
+
+      const body = {
+        nameRestaurant: "burgerShop",
+        serviceNumber: "1",
+        data: memoryUsage
+      }
+  
+      // Enviar la información de la memoria al frontend en tiempo real
+      io.emit('memoryInfo', body);
+    }, 1000); //
+  }
+
+  sendMemoryInfo()
+    // mensajes de chat
 
   socket.on('mensajeChat', (mensaje) => {
     console.log("Mensaje del chat:", mensaje); // Verifica que este mensaje se muestre
@@ -191,10 +223,11 @@ io.to(socket.tableNumber).emit("cliente_desconectado", socket.tableNumber)
       }
     });
 
-socket.on("pedidoEnviado", (table) => {
-  socket.emit("pedidoRecibido", table)
-})
 
+    socket.on("pedidoEnviado", (table) => {
+      socket.emit("pedidoRecibido", table)
+    })
+    
     socket.on('enviar_mesero', (tableNumber) => {
 
 
