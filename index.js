@@ -93,7 +93,6 @@ let clientTimeouts = new Map();
 
 io.on("connection", (socket) => {
   console.log("Cliente conectado:", socket.id);
-
   const sendMemoryInfo = () => {
     const memoryUsage = process.memoryUsage();
     
@@ -113,30 +112,14 @@ io.on("connection", (socket) => {
     // Enviar la información de la memoria al frontend en tiempo real
     io.emit('memoryInfo', body);
   };
-  
-  // Función para calcular el tiempo restante hasta medianoche
-  const getTimeUntilMidnight = () => {
-    const now = new Date();
-    const midnight = new Date();
-    midnight.setHours(24, 0, 0, 0); // Configura la medianoche para hoy
-  
-    return midnight - now; // Devuelve el tiempo restante hasta medianoche en milisegundos
-  };
-  
-  // Programar la ejecución de sendMemoryInfo a medianoche
-  const scheduleMemoryInfo = () => {
-    const delay = getTimeUntilMidnight();
+
+
+  socket.on('admin_conectado', () => {
+    console.log('Admin solicitado, enviando información de la memoria...');
     
-    // Ejecutar sendMemoryInfo después del tiempo calculado hasta la medianoche
-    setTimeout(() => {
-      sendMemoryInfo(); // Ejecutar la función de memoria
-      // Programar la siguiente ejecución para dentro de 24 horas
-      setInterval(sendMemoryInfo, 24 * 60 * 60 * 1000); // 24 horas
-    }, delay);
-  };
-  
-  // Llamar a la función para iniciar la programación
-  scheduleMemoryInfo();
+    // Ejecutar la función para enviar la información de la memoria
+    sendMemoryInfo();
+  });
     // mensajes de chat
 
   socket.on('mensajeChat', (mensaje) => {
