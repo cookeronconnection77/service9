@@ -97,28 +97,29 @@ let clientTimeouts = new Map();
 io.on("connection", (socket) => {
   console.log("Cliente conectado:", socket.id);
 
-  const sendMemoryInfo =() => {
-    const hd = new memwatch.HeapDiff();
-    
-    setInterval(() => {
-      const diff = hd.end();
-      const memoryUsage = {
-        mallocedBytes: diff.change.malloced_bytes,
-        usedHeapSize: diff.change.used_heap_size,
-        totalHeapSize: diff.change.total_heap_size,
-        peakMallocedBytes: diff.change.peak_malloced_bytes,
-      };
-
-      const body = {
-        nameRestaurant: "burgerShop",
-        serviceNumber: "1",
-        data: memoryUsage
-      }
   
-      // Enviar la información de la memoria al frontend en tiempo real
-      io.emit('memoryInfo', body);
-    }, 1000); //
-  }
+const sendMemoryInfo = () => {
+  setInterval(() => {
+    const memoryUsage = process.memoryUsage();
+    
+    const memoryData = {
+      heapTotal: memoryUsage.heapTotal,  // Total memory allocated to V8's heap
+      heapUsed: memoryUsage.heapUsed,    // Total memory currently used by V8's heap
+      external: memoryUsage.external,    // Memory used by external resources (e.g., C++ bindings)
+      rss: memoryUsage.rss,              // Resident Set Size (Total memory used by the process)
+    };
+
+    const body = {
+      nameRestaurant: "burgerShop",
+      serviceNumber: "1",
+      data: memoryData
+    };
+
+    // Enviar la información de la memoria al frontend en tiempo real
+    io.emit('memoryInfo', body);
+  }, 1000); // Enviar cada segundo
+};
+
 
   sendMemoryInfo()
     // mensajes de chat
