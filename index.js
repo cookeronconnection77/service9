@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
 let mesas = {};  
 const fs = require("node:fs")
 
-const frontendUrl = "http://localhost:3000";
+const frontendUrl = "https://cookeronconnection77.github.io";
 
 
 // app.use(multer({storage: storage, dest: path.join(__dirname, "./public/images")}).single("image"))
